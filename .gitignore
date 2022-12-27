@@ -4,10 +4,8 @@
 *.pyc
 .pytest_cache/
 .mypy_cache/
+.coverage
 
 venv/
-data/
-models/
-notebooks/
 
 **/.DS_Store

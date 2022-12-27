@@ -13,7 +13,7 @@ clean:
 
 ## Testing
 test:
-	pytest --durations=0 -vv .
+	pytest --cov=src --cov-report term-missing --cov-fail-under=90 --durations=0 -vv tests/
 
 ## Basic linting
 lint:
