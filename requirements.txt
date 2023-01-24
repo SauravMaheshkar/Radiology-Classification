@@ -1,4 +1,7 @@
 black
+flax>=0.6.0
+jax>=0.2.6
+jaxlib
 mypy>=0.900
 numpy>=1.22.0
 pre-commit>=2.18.0
