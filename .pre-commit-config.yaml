@@ -26,8 +26,3 @@ repos:
     hooks:
       - id: isort
         args: ["--profile", "black"]
-  - repo: https://github.com/pycqa/pylint
-    rev: v2.16.0b1
-    hooks:
-      - id: pylint
-        args: ["src", "-rn"]
