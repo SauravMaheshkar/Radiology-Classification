@@ -15,7 +15,7 @@ class Affine(nn.Module):
     A Flax linen Module to perform a Affine Transformation
 
     Attributes:
-        dim: Needed to generate matrices of the appropriate shape
+        dim (int): Needed to generate matrices of the appropriate shape
     """
 
     dim: int = 512
