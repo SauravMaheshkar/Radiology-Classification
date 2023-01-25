@@ -21,3 +21,26 @@ repos:
     hooks:
       - id: isort
         args: ["--profile", "black"]
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
+    hooks:
+      - id: nbstripout
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.1.1
+    hooks:
+      - id: nbqa-black
+        name: nbqa-black
+        description: "Run 'black' on a Jupyter Notebook"
+        entry: nbqa black
+        language: python
+        require_serial: true
+        types: [jupyter]
+        additional_dependencies: [black]
+      - id: nbqa-isort
+        name: nbqa-isort
+        description: Run 'isort' on a Jupyter Notebook
+        entry: nbqa isort
+        language: python
+        require_serial: true
+        types: [jupyter]
+        additional_dependencies: [isort]
