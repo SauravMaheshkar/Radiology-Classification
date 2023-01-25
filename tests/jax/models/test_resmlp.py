@@ -12,6 +12,7 @@ from src.jax.models.resmlp import (
 from src.jax.utils import ones
 
 
+@pytest.mark.jax
 @pytest.mark.parametrize(
     argnames="dim, seed, patch_size",
     argvalues=[
@@ -32,6 +33,7 @@ def test_crosspatchsublayer(dim: int, seed: int, patch_size: int) -> None:
     assert temp_output.shape == (patch_size, dim, dim)
 
 
+@pytest.mark.jax
 @pytest.mark.parametrize(
     argnames="dim, seed, expansion_factor",
     argvalues=[
@@ -54,6 +56,7 @@ def test_crosschannelsublayer(dim: int, seed: int, expansion_factor: int) -> Non
     assert temp_output.shape == (1, dim, dim)
 
 
+@pytest.mark.jax
 @pytest.mark.parametrize(
     argnames="dim, seed, patch_size",
     argvalues=[
@@ -74,6 +77,7 @@ def test_resmlplayer(dim: int, seed: int, patch_size: int) -> None:
     assert temp_output.shape == (patch_size, dim, dim)
 
 
+@pytest.mark.jax
 @pytest.mark.parametrize(
     argnames="dim, seed, patch_size, num_classes",
     argvalues=[

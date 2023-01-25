@@ -1,11 +1,13 @@
 """Test GeLU activation function module"""
 
 import numpy as np
+import pytest
 
 from jax import random
 from src.jax.activations.gelu import GeLU
 
 
+@pytest.mark.jax
 def test_gelu() -> None:
     """Test GeLU activation function"""
     temp_array = np.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0])
