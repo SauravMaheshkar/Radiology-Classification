@@ -68,6 +68,7 @@ class CrossChannelSubLayer(nn.Module):
     Attributes:
         dim: dimensionality for the Affine Layer and MLP fully-connected layers
         layerscale: float value for scaling the output
+        expansion_factor: expansion factor for the MLP
     """
 
     dim: int = 512
