@@ -8,6 +8,7 @@ from src.jax.modules.affine import Affine
 from src.jax.utils import ones
 
 
+@pytest.mark.jax
 @pytest.mark.parametrize(
     argnames="dim, seed",
     argvalues=[

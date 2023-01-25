@@ -7,6 +7,7 @@ from jax import random
 from src.jax.utils import full, ones, zeros
 
 
+@pytest.mark.jax
 @pytest.mark.parametrize(
     argnames="seed",
     argvalues=[0, 42],
@@ -20,6 +21,7 @@ def test_full(seed: int) -> None:
     )
 
 
+@pytest.mark.jax
 @pytest.mark.parametrize(
     argnames="seed",
     argvalues=[0, 42],
@@ -33,6 +35,7 @@ def test_ones(seed: int) -> None:
     )
 
 
+@pytest.mark.jax
 @pytest.mark.parametrize(
     argnames="seed",
     argvalues=[0, 42],
