@@ -1,15 +1,15 @@
 """JAX utility functions"""
-from typing import Optional, Tuple, Union
+from typing import Optional
 
 import jax.numpy as jnp
-from jax._src.typing import ArrayLike, DTypeLike
+from jax._src.typing import ArrayLike, DTypeLike, Shape
 
 __all__ = ["full", "ones", "zeros"]
 
 
 def full(
     key,  # pylint: disable=unused-argument
-    shape: Union[int, Tuple[int, ...]],
+    shape: Shape,
     fill_value: ArrayLike,
     dtype: Optional[DTypeLike] = None,
 ) -> ArrayLike:
@@ -19,7 +19,7 @@ def full(
 
 def ones(
     key,  # pylint: disable=unused-argument
-    shape: Union[int, Tuple[int, ...]],
+    shape: Shape,
     dtype: Optional[DTypeLike] = None,
 ) -> ArrayLike:
     """Helper function to create an array of ones of a given shape and dtype."""
@@ -28,7 +28,7 @@ def ones(
 
 def zeros(
     key,  # pylint: disable=unused-argument
-    shape: Union[int, Tuple[int, ...]],
+    shape: Shape,
     dtype: Optional[DTypeLike] = None,
 ) -> ArrayLike:
     """Helper function to create an array of zeros of a given shape and dtype."""
