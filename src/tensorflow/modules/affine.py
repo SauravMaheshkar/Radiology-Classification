@@ -33,3 +33,11 @@ class Affine(tf.keras.layers.Layer):
 
     def call(self, inputs: tf.Tensor, *args, **kwargs) -> tf.Tensor:
         return inputs * self.alpha + self.beta
+
+    def get_config(self) -> dict:
+        config = super(Affine, self).get_config()
+        config.update({"dim": self.dim})
+        return config
+
+    def compute_output_shape(self, input_shape: tf.TensorShape) -> tf.TensorShape:
+        return input_shape
