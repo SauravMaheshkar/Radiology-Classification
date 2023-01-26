@@ -26,3 +26,8 @@ filterwarnings = [
     "ignore::DeprecationWarning",
 	"ignore::UserWarning"
 ]
+markers = [
+    "tensorflow: mark test as tensorflow related",
+    "pytorch: mark test as pytorch related",
+    "jax: mark test as jax/flax related",
+]
