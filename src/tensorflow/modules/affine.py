@@ -14,7 +14,7 @@ class Affine(tf.keras.layers.Layer):
     """
 
     def __init__(self, dim: int = 512, **kwargs) -> None:
-        super(Affine, self).__init__(**kwargs)
+        super().__init__()
         self.dim = dim
 
     def build(self, input_shape: tf.TensorShape) -> None:
@@ -35,7 +35,7 @@ class Affine(tf.keras.layers.Layer):
         return inputs * self.alpha + self.beta
 
     def get_config(self) -> dict:
-        config = super(Affine, self).get_config()
+        config = super().get_config()
         config.update({"dim": self.dim})
         return config
 
