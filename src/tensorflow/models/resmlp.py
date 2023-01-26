@@ -5,7 +5,7 @@ import tensorflow as tf
 # local imports
 from src.tensorflow.modules.affine import Affine
 
-__all__ = ["CrossPatchSubLayer", "CrossChannelSubLayer"]
+__all__ = ["CrossPatchSubLayer", "CrossChannelSubLayer", "ResMLPLayer"]
 
 
 class CrossPatchSubLayer(tf.keras.layers.Layer):
