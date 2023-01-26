@@ -171,3 +171,70 @@ class ResMLPLayer(tf.keras.layers.Layer):
             }
         )
         return config
+
+
+class ResMLP(tf.keras.Model):
+    """A Tensorflow implementation of the ResMLP.
+
+    Attributes:
+        dim: dimensionality for the Affine and MLP layers
+        depth: No of ResMLP Layers, needed for determining the layerscale value
+        patch_size: dimensionality for the Linear Layer
+        num_classes: number of classes for the classification head
+    """
+
+    def __init__(
+        self,
+        dim: int = 512,
+        depth: int = 12,
+        patch_size: int = 16,
+        num_classes: int = 10,
+    ) -> None:
+        super().__init__()
+        self.dim = dim
+        self.depth = depth
+        self.patch_size = patch_size
+        self.num_classes = num_classes
+
+        self.patch_projector = tf.keras.layers.Conv2D(
+            filters=self.dim, kernel_size=self.patch_size, strides=self.patch_size
+        )
+
+        self.resmlp_layers = [
+            ResMLPLayer(dim=self.dim, depth=self.depth, patch_size=self.patch_size)
+            for _ in range(self.depth)
+        ]
+
+        self.head = tf.keras.Sequential(
+            [
+                tf.keras.layers.LayerNormalization(),
+                tf.keras.layers.GlobalAveragePooling2D(),
+                tf.keras.layers.Dense(units=self.num_classes),
+            ]
+        )
+
+    def call(self, inputs: tf.Tensor, training=None, mask=None) -> tf.Tensor:
+        # Stem
+        patches = self.patch_projector(inputs)
+
+        # ResMLP Layers
+        resmlp_output = patches
+        for layer in self.resmlp_layers:
+            resmlp_output = layer(resmlp_output)
+
+        # Classification Head
+        output = self.head(resmlp_output)
+
+        return output
+
+    def get_config(self) -> dict:
+        config = super().get_config()
+        config.update(
+            {
+                "dim": self.dim,
+                "depth": self.depth,
+                "patch_size": self.patch_size,
+                "num_classes": self.num_classes,
+            }
+        )
+        return config

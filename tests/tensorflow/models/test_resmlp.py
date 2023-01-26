@@ -6,6 +6,7 @@ import tensorflow as tf
 from src.tensorflow.models.resmlp import (
     CrossChannelSubLayer,
     CrossPatchSubLayer,
+    ResMLP,
     ResMLPLayer,
 )
 
@@ -70,3 +71,23 @@ def test_resmlplayer(dim: int, patch_size: int) -> None:
     temp_output = resmlplayer(temp_array)
 
     assert temp_output.shape == (patch_size, dim, dim)
+
+
+@pytest.mark.tensorflow
+@pytest.mark.parametrize(
+    argnames="dim, patch_size, num_classes",
+    argvalues=[
+        (512, 8, 10),
+        (1024, 16, 100),
+    ],
+    ids=["dim-512-patch-8-classes-10", "dim-1024-patch-16-classes-100"],
+)
+def test_resmlp(dim: int, patch_size: int, num_classes: int) -> None:
+    """Test ResMLP module"""
+
+    temp_array = tf.ones(shape=(patch_size, dim, dim, 3))
+
+    resmlp = ResMLP(dim=dim, patch_size=patch_size, num_classes=num_classes, depth=2)
+    temp_output = resmlp(temp_array)
+
+    assert temp_output.shape == (patch_size, num_classes)
