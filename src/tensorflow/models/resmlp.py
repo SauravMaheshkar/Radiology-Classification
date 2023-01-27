@@ -78,7 +78,8 @@ class CrossPatchSubLayer(tf.keras.layers.Layer):
 
 
 class CrossChannelSubLayer(tf.keras.layers.Layer):
-    """A Tensorflow implementation of the CrossChannelSubLayer.
+    """
+    A Tensorflow implementation of the CrossChannelSubLayer.
 
     References:
         - https://arxiv.org/abs/2105.03404v2
@@ -147,7 +148,8 @@ class CrossChannelSubLayer(tf.keras.layers.Layer):
 
 
 class ResMLPLayer(tf.keras.layers.Layer):
-    """A Tensorflow implementation of the ResMLP Layer.
+    """
+    A Tensorflow implementation of the ResMLP Layer.
 
     References:
         - https://arxiv.org/abs/2105.03404v2
@@ -271,9 +273,6 @@ class ResMLP(tf.keras.Model):
                 tf.keras.layers.Reshape(target_shape=(self.num_patches, self.dim)),
             ]
         )
-        """self.patch_projector = tf.keras.layers.Conv2D(
-            filters=self.dim, kernel_size=self.patch_size, strides=self.patch_size
-        )"""
 
         # ResMLP Layers
         self.resmlp_layers = [
@@ -299,7 +298,6 @@ class ResMLP(tf.keras.Model):
 
         # Get the Patch Embeddings
         patches = self.patch_projector(inputs)
-        # patches = tf.reshape(patches, shape=(-1, self.num_patches, self.dim))
 
         # Feed into ResMLP Layers
         resmlp_output = patches
