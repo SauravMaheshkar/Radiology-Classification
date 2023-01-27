@@ -14,6 +14,7 @@ disable = [
     "too-many-branches",
     "redefined-builtin",
     "dangerous-default-value",
+    "too-many-instance-attributes",
     "attribute-defined-outside-init",
 ]
 
