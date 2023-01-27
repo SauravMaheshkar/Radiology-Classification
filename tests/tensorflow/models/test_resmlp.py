@@ -10,25 +10,27 @@ from src.tensorflow.models.resmlp import (
     ResMLPLayer,
 )
 
+BATCH_SIZE = 4
+
 
 @pytest.mark.tensorflow
 @pytest.mark.parametrize(
-    argnames="dim, patch_size",
+    argnames="dim, num_patches",
     argvalues=[
         (512, 16),
         (1024, 64),
     ],
-    ids=["dim-512-patch-16", "dim-1024-patch-64"],
+    ids=["dim-512-patches-16", "dim-1024-patches-64"],
 )
-def test_crosspatchsublayer(dim: int, patch_size: int) -> None:
+def test_crosspatchsublayer(dim: int, num_patches: int) -> None:
     """Test CrossPatchSubLayer module"""
 
-    temp_array = tf.ones(shape=(dim, dim))
+    temp_array = tf.ones(shape=(BATCH_SIZE, num_patches, dim))
 
-    crosspatchsublayer = CrossPatchSubLayer(dim=dim, patch_size=patch_size)
+    crosspatchsublayer = CrossPatchSubLayer(dim=dim, num_patches=num_patches)
     temp_output = crosspatchsublayer(temp_array)
 
-    assert temp_output.shape == (patch_size, dim, dim)
+    assert temp_output.shape == (BATCH_SIZE, num_patches, dim)
 
 
 @pytest.mark.tensorflow
@@ -43,51 +45,67 @@ def test_crosspatchsublayer(dim: int, patch_size: int) -> None:
 def test_crosschannelsublayer(dim: int, expansion_factor: int) -> None:
     """Test CrossChannelSubLayer module"""
 
-    temp_array = tf.ones(shape=(dim, dim))
+    temp_array = tf.ones(shape=(BATCH_SIZE, dim, dim))
 
     crosschannelsublayer = CrossChannelSubLayer(
         dim=dim, expansion_factor=expansion_factor
     )
     temp_output = crosschannelsublayer(temp_array)
 
-    assert temp_output.shape == (1, dim, dim)
+    assert temp_output.shape == (BATCH_SIZE, dim, dim)
 
 
 @pytest.mark.tensorflow
 @pytest.mark.parametrize(
-    argnames="dim, patch_size",
+    argnames="dim, num_patches",
     argvalues=[
         (512, 8),
         (1024, 16),
     ],
-    ids=["dim-512-patch-8", "dim-1024-patch-16"],
+    ids=["dim-512-patches-8", "dim-1024-patches-16"],
 )
-def test_resmlplayer(dim: int, patch_size: int) -> None:
+def test_resmlplayer(dim: int, num_patches: int) -> None:
     """Test ResMLPLayer module"""
 
-    temp_array = tf.ones(shape=(dim, dim))
+    temp_array = tf.ones(shape=(BATCH_SIZE, num_patches, dim))
 
-    resmlplayer = ResMLPLayer(dim=dim, patch_size=patch_size, depth=2)
+    resmlplayer = ResMLPLayer(dim=dim, num_patches=num_patches, depth=2)
     temp_output = resmlplayer(temp_array)
 
-    assert temp_output.shape == (patch_size, dim, dim)
+    assert temp_output.shape == (BATCH_SIZE, num_patches, dim)
 
 
 @pytest.mark.tensorflow
 @pytest.mark.parametrize(
-    argnames="dim, patch_size, num_classes",
+    argnames="dim, patch_size, image_size, in_channels, num_classes",
     argvalues=[
-        (512, 8, 10),
-        (1024, 16, 100),
+        (512, 16, 224, 3, 10),
+        (512, 8, 224, 3, 10),
+        (512, 16, 224, 1, 10),
+        (1024, 16, 224, 3, 10),
     ],
-    ids=["dim-512-patch-8-classes-10", "dim-1024-patch-16-classes-100"],
+    ids=[
+        "dim-512-patch_size-16-image_size-224-in_channels-3-num_classes-10",
+        "dim-512-patch_size-8-image_size-224-in_channels-3-num_classes-10",
+        "dim-512-patch_size-16-image_size-224-in_channels-1-num_classes-10",
+        "dim-1024-patch_size-16-image_size-224-in_channels-3-num_classes-10",
+    ],
 )
-def test_resmlp(dim: int, patch_size: int, num_classes: int) -> None:
+def test_resmlp(
+    dim: int, patch_size: int, image_size: int, in_channels: int, num_classes: int
+) -> None:
     """Test ResMLP module"""
 
-    temp_array = tf.ones(shape=(patch_size, dim, dim, 3))
+    temp_array = tf.ones(shape=(BATCH_SIZE, image_size, image_size, in_channels))
 
-    resmlp = ResMLP(dim=dim, patch_size=patch_size, num_classes=num_classes, depth=2)
+    resmlp = ResMLP(
+        dim=dim,
+        depth=2,
+        in_channels=in_channels,
+        num_classes=num_classes,
+        patch_size=patch_size,
+        image_size=image_size,
+    )
     temp_output = resmlp(temp_array)
 
-    assert temp_output.shape == (patch_size, num_classes)
+    assert temp_output.shape == (BATCH_SIZE, num_classes)
