@@ -22,6 +22,7 @@ class GeLU(nn.Module):
 
     @nn.compact
     def __call__(self, x, *args, **kwargs) -> ArrayLike:
+        """Compute a forward pass through the GeLU activation function"""
         if self.approximate:
             sqrt_2_over_pi = np.sqrt(2 / np.pi).astype(x.dtype)
             cdf = 0.5 * (1.0 + jnp.tanh(sqrt_2_over_pi * (x + 0.044715 * (x**3))))
