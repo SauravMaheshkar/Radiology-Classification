@@ -16,7 +16,10 @@ __all__ = ["CrossPatchSubLayer", "CrossChannelSubLayer", "ResMLPLayer", "ResMLP"
 class CrossPatchSubLayer(nn.Module):
     """
     A Flax linen Module consisting of two Affine element-wise transformations,
-    Linear Layer and Skip Connection.
+    Linear Layer and Skip Connection
+
+    References:
+        - https://arxiv.org/abs/2105.03404v2
 
     Attributes:
         dim: dimensionality for the Affine Layer
@@ -63,7 +66,10 @@ class CrossPatchSubLayer(nn.Module):
 class CrossChannelSubLayer(nn.Module):
     """
     A Flax linen Module consisting of two Affine element-wise transformations,
-    MLP and Skip Connection.
+    MLP and Skip Connection
+
+    References:
+        - https://arxiv.org/abs/2105.03404v2
 
     Attributes:
         dim: dimensionality for the Affine Layer and MLP fully-connected layers
@@ -111,6 +117,9 @@ class ResMLPLayer(nn.Module):
     """
     A Flax linen Module consisting of the CrossPatchSubLayer and CrossChannelSubLayer
 
+    References:
+        - https://arxiv.org/abs/2105.03404v2
+
     Attributes:
         dim: dimensionality for the Affine and MLP layers
         depth: No of ResMLP Layers, needed for determining the layerscale value
@@ -149,7 +158,10 @@ class ResMLPLayer(nn.Module):
 
 class ResMLP(nn.Module):
     """
-    A Flax linen Module for creating the ResMLP architecture.
+    A Flax linen Module for creating the ResMLP architecture
+
+    References:
+        - https://arxiv.org/abs/2105.03404v2
 
     Attributes:
         dim: dimensionality for the Affine and MLP layers
