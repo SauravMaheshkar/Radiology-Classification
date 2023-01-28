@@ -41,6 +41,12 @@ jobs:
       - name: Lint with pylint
         run: |
           pylint src
-      - name: Test with PyTest
+      - name: PyTorch Tests
         run: |
-          pytest -v .
+          pytest -v -m pytorch
+      - name: Tensorflow Tests
+        run: |
+          pytest -v -m tensorflow
+      - name: JAX Tests
+        run: |
+          pytest -v -m jax
