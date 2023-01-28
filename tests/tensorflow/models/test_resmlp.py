@@ -101,7 +101,6 @@ def test_resmlp(
     resmlp = ResMLP(
         dim=dim,
         depth=2,
-        in_channels=in_channels,
         num_classes=num_classes,
         patch_size=patch_size,
         image_size=image_size,
