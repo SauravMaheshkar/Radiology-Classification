@@ -221,7 +221,7 @@ class ResMLPLayer(tf.keras.layers.Layer):
 
 
 class ResMLP(tf.keras.Model):
-    """A Tensorflow implementation of the ResMLP
+    """A Tensorflow implementation of the ResMLP architecture.
 
     References:
         - https://arxiv.org/abs/2105.03404v2
@@ -240,7 +240,6 @@ class ResMLP(tf.keras.Model):
         self,
         dim: int = 512,
         depth: int = 12,
-        in_channels: int = 3,
         num_classes: int = 10,
         patch_size: int = 16,
         image_size: int = 224,
@@ -258,7 +257,6 @@ class ResMLP(tf.keras.Model):
         self.num_patches = (self.image_size // self.patch_size) ** 2
         self.dim = dim
         self.depth = depth
-        self.in_channels = in_channels
         self.num_classes = num_classes
         self.expansion_factor = expansion_factor
 
