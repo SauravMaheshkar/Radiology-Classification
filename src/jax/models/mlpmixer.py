@@ -1,4 +1,4 @@
-"""Flax Implementation of ResMLP"""
+"""Flax Implementation of MLP-Mixer"""
 
 import typing
 from typing import Optional
@@ -14,7 +14,7 @@ __all__ = ["MLPBlock", "MixerBlock", "MLPMixer"]
 
 class MLPBlock(nn.Module):
     """
-    A Flax linen Module consisting of two Dense layers with GeLU activation
+    A Flax linen Module implementation of the MLPBlock
 
     References:
         - https://arxiv.org/abs/2105.01601v1
@@ -72,7 +72,7 @@ class MixerBlock(nn.Module):
 
 class MLPMixer(nn.Module):
     """
-    A Flax linen Module for creating the MLPMixer architecture
+    A Flax linen Module of the MLP-Mixer architecture
 
     References:
         - https://arxiv.org/abs/2105.01601v1
