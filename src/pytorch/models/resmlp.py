@@ -222,8 +222,9 @@ class ResMLP(nn.Module):
         patches = self.patch_projector(inputs)
 
         # Feed into ResMLP Layers
+        resmlp_output = patches
         for resmlp_layer in self.resmlp_layers:
-            resmlp_output = resmlp_layer(patches)
+            resmlp_output = resmlp_layer(resmlp_output)
 
         # Get the mean of the ResMLP Output
         mean = torch.mean(resmlp_output, dim=1)
