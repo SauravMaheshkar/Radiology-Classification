@@ -31,12 +31,3 @@ jobs:
           context: ./
           file: ./Containerfile
           push: false
-
-      - name: Buildah Action
-        uses: redhat-actions/buildah-build@v2
-        with:
-          image: python-dev
-          oci: true
-          tags: latest ${{ github.sha }}
-          containerfiles: |
-            ./Containerfile
