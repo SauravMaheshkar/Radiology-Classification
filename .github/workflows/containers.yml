@@ -4,13 +4,15 @@ on:
   push:
     branches: [main]
     paths:
-      - '**.py'
-      - 'Containerfile'
+      - "**.py"
+      - "Containerfile"
+      - ".github/workflows/containers.yml"
   pull_request:
     branches: [main]
     paths:
-      - '**.py'
-      - 'Containerfile'
+      - "**.py"
+      - "Containerfile"
+      - ".github/workflows/containers.yml"
   release:
     types: [created]
 
@@ -34,6 +36,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: python-dev
+          oci: true
           tags: latest ${{ github.sha }}
           containerfiles: |
             ./Containerfile
