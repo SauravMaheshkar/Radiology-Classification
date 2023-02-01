@@ -43,19 +43,21 @@ class FNetFeedForwardLayer(nn.Module):
     @nn.compact
     def __call__(self, inputs: ArrayLike, training: bool, *args, **kwargs) -> ArrayLike:
         """Forward pass for FNetFeedForwardLayer"""
-        x = nn.Dense(
+        intermediate_dense_output = nn.Dense(
             features=self.dim_ff,
             kernel_init=nn.initializers.normal(2e-2),
             bias_init=nn.initializers.normal(2e-2),
             name="intermediate_dense_layer",
         )(inputs)
-        x = nn.gelu(x)
-        x = nn.Dense(
+        dense_activation = nn.gelu(intermediate_dense_output)
+        dense_output = nn.Dense(
             features=inputs.shape[-1],
             kernel_init=nn.initializers.normal(2e-2),
             name="output_dense_layer",
-        )(x)
-        output = nn.Dropout(rate=self.dropout_rate, deterministic=not training)(x)
+        )(dense_activation)
+        output = nn.Dropout(rate=self.dropout_rate, deterministic=not training)(
+            dense_output
+        )
         return output
 
 
@@ -76,12 +78,12 @@ class FNetEncoderBlock(nn.Module):
         """Forward pass for FNetEncoderBlock"""
 
         mixing_output = self.fourier_layer(inputs)
-        x = nn.LayerNorm(epsilon=1e-12, name="mixing_layer_normalization")(
-            inputs + mixing_output
-        )
-        feed_forward_output = self.feed_forward_layer(x, not training)
+        mixing_layer_norm = nn.LayerNorm(
+            epsilon=1e-12, name="mixing_layer_normalization"
+        )(inputs + mixing_output)
+        feed_forward_output = self.feed_forward_layer(mixing_layer_norm, not training)
         return nn.LayerNorm(epsilon=1e-12, name="output_layer_normalization")(
-            x + feed_forward_output
+            mixing_layer_norm + feed_forward_output
         )
 
 
@@ -150,19 +152,20 @@ class FNet(nn.Module):
         """Forward pass for FNet"""
 
         # Patch Projector
-        x = self.patch_projector(inputs)
+        patches = self.patch_projector(inputs)
 
         # Reshape
-        x = x.reshape(x.shape[0], -1, x.shape[-1])
+        patches_reshaped = patches.reshape(patches.shape[0], -1, patches.shape[-1])
 
         # Encoder Blocks
+        encoder_output = patches_reshaped
         for encoder_block in self.encoder_blocks:
-            x = encoder_block(x, training)
+            encoder_output = encoder_block(encoder_output, training)
 
         # Pooling
-        x = jnp.mean(x, axis=1)
+        pooled_output = jnp.mean(encoder_output, axis=1)
 
         # Feed into Classifier
-        x = self.classifier(x)
+        output = self.classifier(pooled_output)
 
-        return x
+        return output
