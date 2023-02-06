@@ -114,7 +114,6 @@ class MLPMixer(tf.keras.Model):
         channels_mlp_dim: int = 3072,
         **kwargs,
     ) -> None:
-
         super().__init__(**kwargs)
 
         # Attributes

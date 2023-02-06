@@ -99,7 +99,6 @@ class MLPMixer(nn.Module):
 
     @nn.compact
     def __call__(self, inputs: ArrayLike, *args, **kwargs) -> ArrayLike:
-
         # Get the Patch Embeddings
         patches = nn.Conv(
             features=self.hidden_dim,

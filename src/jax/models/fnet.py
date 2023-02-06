@@ -111,7 +111,6 @@ class FNet(nn.Module):
     dropout_rate: float = 0.1
 
     def setup(self) -> None:
-
         # Attributes
         assert (
             self.image_size % self.patch_size == 0
