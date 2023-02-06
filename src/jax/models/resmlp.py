@@ -140,7 +140,6 @@ class ResMLPLayer(nn.Module):
     expansion_factor: int = 4
 
     def setup(self) -> None:
-
         # Determine Value of LayerScale based on the depth
         if self.depth <= 18:
             self.layerscale = 0.1
@@ -192,7 +191,6 @@ class ResMLP(nn.Module):
     expansion_factor: int = 4
 
     def setup(self) -> None:
-
         # Attributes
         assert (
             self.image_size % self.patch_size == 0
