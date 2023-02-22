@@ -7,3 +7,4 @@ Currently available backbones :-
 - FNet
 - MLP-Mixer
 - ResMLP
+- gMLP
