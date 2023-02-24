@@ -7,12 +7,14 @@ on:
       - "**.py"
       - "Containerfile"
       - ".github/workflows/containers.yml"
+      - ".github/workflows/container-security.yml"
   pull_request:
     branches: [main]
     paths:
       - "**.py"
       - "Containerfile"
       - ".github/workflows/containers.yml"
+      - ".github/workflows/container-security.yml"
   release:
     types: [created]
 
