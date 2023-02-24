@@ -23,11 +23,11 @@ class SpatialGatingUnit(tf.keras.layers.Layer):
         # pylint: disable=invalid-name
         u, v = tf.split(inputs, num_or_size_splits=2, axis=-1)
         v = tf.keras.layers.LayerNormalization(epsilon=1e-6)(v)
-        v = tf.linalg.matrix_transpose(v)
-        v = tf.keras.layers.Dense(self.dim, bias_initializer="ones")(v)
-        v = tf.linalg.matrix_transpose(v)
+        v = tf.transpose(v, perm=[0, 2, 1])
+        spatial_proj = tf.keras.layers.Dense(self.dim, bias_initializer="ones")(v)
+        spatial_proj = tf.transpose(spatial_proj, perm=[0, 2, 1])
 
-        return u * v
+        return u * spatial_proj
         # pylint: enable=invalid-name
 
     def get_config(self) -> dict:
