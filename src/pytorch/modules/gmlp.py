@@ -27,10 +27,12 @@ class SpatialGatingUnit(nn.Module):
 
         v = nn.LayerNorm(normalized_shape=v.shape, eps=1e-6)(v)
         v = v.permute(0, 2, 1)
-        v = nn.Linear(in_features=self.dim, out_features=self.dim, bias=True)(v)
-        v = v.permute(0, 2, 1)
+        spatial_proj = nn.Linear(
+            in_features=self.dim, out_features=self.dim, bias=True
+        )(v)
+        spatial_proj = spatial_proj.permute(0, 2, 1)
 
-        return u * v
+        return u * spatial_proj
         # pylint: enable=invalid-name
 
 
@@ -45,12 +47,12 @@ class gMLPBlock(nn.Module):  # pylint: disable=invalid-name
         """Forward pass for gMLPBlock"""
         shortcut = inputs
         norm = nn.LayerNorm(normalized_shape=inputs.shape, eps=1e-6)(inputs)
-        in_proj = nn.Linear(
+        channel_proj = nn.Linear(
             in_features=inputs.shape[-1], out_features=inputs.shape[-1] * 2, bias=True
         )(norm)
-        activations = nn.GELU()(in_proj)
+        activations = nn.GELU()(channel_proj)
         sgu = SpatialGatingUnit(dim=inputs.shape[-2])(activations)
-        out_proj = nn.Linear(
+        out_channel_proj = nn.Linear(
             in_features=inputs.shape[-1], out_features=inputs.shape[-1], bias=True
         )(sgu)
-        return out_proj + shortcut
+        return out_channel_proj + shortcut

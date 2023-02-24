@@ -31,7 +31,9 @@ class SpatialGatingUnit(nn.Module):
         # pylint: disable=invalid-name
         u, v = inputs.split(2, axis=-1)
         v = nn.LayerNorm()(v)
-        v = self.dense(v.transpose((0, 2, 1))).transpose((0, 2, 1))
+        v = v.transpose((0, 2, 1))
+        v = self.dense(v)
+        v = v.transpose((0, 2, 1))
         return u * v
         # pylint: enable=invalid-name
 
